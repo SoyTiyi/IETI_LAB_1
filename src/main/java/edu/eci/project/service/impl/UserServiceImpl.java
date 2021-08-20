@@ -37,8 +37,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteById(AtomicInteger id) {
-        users.remove(id);
+    public boolean deleteById(AtomicInteger id) {
+        try {
+            users.remove(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
         
     }
 

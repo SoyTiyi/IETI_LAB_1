@@ -1,13 +1,14 @@
 package edu.eci.project.controller;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,9 +46,31 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> create( @RequestBody UserDto userDto )
-     {
-          //TODO implement this method using UserService
-         return null;
-     }
+    public ResponseEntity<?> create( @RequestBody UserDto userDto ){
+        try {
+            User user = new User(userDto.getName(), userDto.getEmail(), userDto.getLastName(), userDto.isCreated());
+            return new ResponseEntity<>(userService.create(user),HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update( @RequestBody UserDto userDto, @PathVariable AtomicInteger userId ){
+        try {
+            User user = new User(userDto.getName(), userDto.getEmail(), userDto.getLastName(), userDto.isCreated());
+            return new ResponseEntity<>(userService.update(user, userId),HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete( @PathVariable AtomicInteger userId ){
+        try {
+            return new ResponseEntity<>(userService.deleteById(userId),HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -12,7 +12,7 @@ public interface UserService {
 
     List<User> all();
 
-    void deleteById(AtomicInteger id);
+    boolean deleteById(AtomicInteger id);
 
     User update(User user, AtomicInteger userId);
 }

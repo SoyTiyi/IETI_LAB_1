@@ -18,6 +18,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User create(User user) {
+        AtomicInteger size = new AtomicInteger(users.size()+1);
+        user.setId(size);
         users.put(user.getId(), user);
         return users.get(user.getId());
     }

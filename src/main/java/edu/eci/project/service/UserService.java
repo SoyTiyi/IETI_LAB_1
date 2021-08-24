@@ -1,18 +1,17 @@
 package edu.eci.project.service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import edu.eci.project.data.User;
 
 public interface UserService {
     User create(User user);
 
-    User findById(AtomicInteger id);
+    User findById(String id);
 
     List<User> all();
 
-    boolean deleteById(AtomicInteger id);
+    boolean deleteById(String id);
 
-    User update(User user, AtomicInteger userId);
+    User update(User user, String userId);
 }

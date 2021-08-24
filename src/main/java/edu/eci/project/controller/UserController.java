@@ -1,6 +1,5 @@
 package edu.eci.project.controller;
 
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import edu.eci.project.data.User;
 import edu.eci.project.dto.UserDto;
 import edu.eci.project.service.UserService;
@@ -37,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping( "/{id}" )
-    public ResponseEntity<?> findById(@PathVariable AtomicInteger id){
+    public ResponseEntity<?> findById(@PathVariable String id){
         try {
             return new ResponseEntity<>(userService.findById(id),HttpStatus.ACCEPTED);
         } catch (Exception e) {
@@ -56,19 +54,19 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update( @RequestBody UserDto userDto, @PathVariable AtomicInteger userId ){
+    public ResponseEntity<?> update( @RequestBody UserDto userDto, @PathVariable String id ){
         try {
             User user = new User(userDto.getName(), userDto.getEmail(), userDto.getLastName(), userDto.isCreated());
-            return new ResponseEntity<>(userService.update(user, userId),HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(userService.update(user, id),HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete( @PathVariable AtomicInteger userId ){
+    public ResponseEntity<Boolean> delete( @PathVariable String id ){
         try {
-            return new ResponseEntity<>(userService.deleteById(userId),HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(userService.deleteById(id),HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
